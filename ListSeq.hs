@@ -34,7 +34,8 @@ instance Seq [] where
   tabulateS f n = map f [1..n]
 
   mapS f [] = []
-  mapS f (x:xs) = (f x) : mapS f xs
+  mapS f (x:xs) = let (x', xs') = f x ||| mapS f xs
+                  in x' : xs'
 
   filterS f [] = []
   filterS f (x:xs) = let (b, xs') = f x ||| filterS f xs
