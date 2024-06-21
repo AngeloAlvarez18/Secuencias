@@ -85,7 +85,3 @@ instance Seq A.Arr where
             x = nthS arr 0      
 
   fromList = A.fromList
-
-
--- S_r(n) = S(n/2) + S(f) + k
--- SUM(i = 0, lg n)  
