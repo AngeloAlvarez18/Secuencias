@@ -1,4 +1,4 @@
-module ListSeq where
+module ListSeq where 
 
 import Par
 import Seq
@@ -14,14 +14,14 @@ contract f (x:y:xs) = let (z, zs) = f x y ||| contract f xs
 -- Funcion auxiliar para scanS la cual toma dos listas y utiliza un algoritmo para 
 -- obtener una unica, resultado del scan.
 -- El algoritmo consiste en ir formando la nueva lista elemento por elemento:
--- si la posicion a rellenar en la lista resultante es par entonces tomo el i/2 elemento de la 2da lista,
--- si la posición es impar entonces aplicamos la operacion al piso(i/2)-ésimo de la 2da lista y al
--- (i-1)-ésimo del primero.
+-- vamos tomando cada dos elementos en la primera lista, y cada uno de la 2da. 
+-- Así representamos el algoritmo el cual en una posición par, toma un elemento,
+-- unicamente del 2do array, y en una posición impar, de las dos.
 -- La funcion tambien considera si la primera lista ingresada es de longitud par o impar.
 expand :: (a -> a -> a) -> [a] -> [a] -> [a]
 expand f xs [] = []
 expand f l@(x:xs) [y] = if mod (lengthS l) 2 == 0 then y : (f y x) : [] else y : []
-expand f (x:z:xs) (y:ys) = let (z:zs) = (f y x) ||| expand f xs ys
+expand f (x:z:xs) (y:ys) = let (z,zs) = (f y x) ||| expand f xs ys
                            in y : z : zs
 
 instance Seq [] where
@@ -59,7 +59,7 @@ instance Seq [] where
   joinS [] = []
   joinS (x:xs) = appendS x (joinS xs)
 
-  reduceS f e [] = []
+  reduceS f e [] = e
   reduceS f e [x] = f e x
   reduceS f e xs = reduceS f e (contract f xs)
 
